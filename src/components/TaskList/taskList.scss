@@ -1,0 +1,38 @@
+.tasks {
+  margin-top: 2rem;
+
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: .1rem solid #4B5563;
+    padding: .8rem 0;
+    margin-bottom: 2.8rem;
+
+    &__total,
+    &__complited {
+      display: flex;
+      align-items: center;
+
+      p {
+        margin-right: 1rem;
+        font-size: 1.4rem;
+      }
+    }
+  }
+
+  &-body {
+    position: relative;
+
+    .empty {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      p {
+        font-size: 3rem;
+        font-weight: 600;
+      }
+    }
+  }
+}

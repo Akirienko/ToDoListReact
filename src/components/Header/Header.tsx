@@ -1,6 +1,6 @@
 import './Header.scss'
 
-import logo from '../assets/image/logo.webp'
+import logo from '../../assets/image/logo.webp'
 
 function Header() {
 

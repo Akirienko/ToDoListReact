@@ -1,7 +1,11 @@
 import './TodoContainer.scss'
 
-import { useState, useRef } from "react"
-import type { Task } from '../types'
+import { useState } from "react"
+import type { Task } from '../../types'
+
+import TaskList from '../TaskList/TaskList';
+import Button from '../Button';
+import AddTask from '../modals/AddTask/AddTask';
 
 
 
@@ -14,6 +18,8 @@ function TodoContainer() {
     {id: 4, title: 'Add TypeScript', created_at: new Date().toISOString(), isDone: false},
   ])
 
+  const [addTaskModal, setAddTaskModal] = useState<boolean>(false);
+
   const [taskInput, setTaskInput] = useState<string>('');
 
   const handleAddTask = () => {
@@ -25,6 +31,12 @@ function TodoContainer() {
     }
 
     setTaskList([...taskList, newTask]);
+    setAddTaskModal(false);
+    setTaskInput('');
+  }
+
+  const rejectAddTask = () => {
+    setAddTaskModal(false);
     setTaskInput('');
   }
 
@@ -41,15 +53,13 @@ function TodoContainer() {
           onChange={(e) => setTaskInput(e.target.value)}
         />
 
-        <ul>
-          {taskList.map((item) => (
-            <li key={item.id}>
-              {item.title}
-            </li>
-          ))}
-        </ul>
+        <TaskList list={taskList} />
 
-        <button onClick={handleAddTask}>Add Task</button>
+        {addTaskModal && (
+          <AddTask clickAccept={handleAddTask} clickCancel={rejectAddTask} />
+        )}
+
+        <Button onClick={() => setAddTaskModal(true)} >Add Task</Button>
       </div>
     </>
   )
