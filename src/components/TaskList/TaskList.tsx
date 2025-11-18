@@ -1,9 +1,15 @@
 import "./taskList.scss"
 import TaskItem from "../TaskItem/TaskItem"
-
 import type { Task } from '../../types'
 
-function TaskList({ list }: { list: Task[] }) {
+interface TaskListProps {
+  list: Task[];
+  onToggleDone: (id: number | string) => void;
+  onDelete: (id: number | string) => void;
+}
+
+function TaskList({ list, onToggleDone, onDelete }: TaskListProps) {
+
   return (
     <div className="tasks">
       <div className="tasks-body">
@@ -14,7 +20,7 @@ function TaskList({ list }: { list: Task[] }) {
         ) : (
             <>
               {list.map((item) => (
-                <TaskItem key={item.id} task={item} />
+                <TaskItem key={item.id} task={item} onToggleDone={onToggleDone} onDelete={onDelete} />
               ))}
             </>
         )}

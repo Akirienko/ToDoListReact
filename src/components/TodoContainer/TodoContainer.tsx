@@ -12,7 +12,7 @@ import AddTask from '../modals/AddTask/AddTask';
 function TodoContainer() {
 
   const [taskList, setTaskList] = useState<Task[]>([
-    {id: 1, title: 'Learn React', created_at: new Date().toISOString(), isDone: false},
+    {id: 1, title: 'Learn React', created_at: new Date().toISOString(), isDone: true},
     {id: 2, title: 'Build a ToDo App', created_at: new Date().toISOString(), isDone: false},
     {id: 3, title: 'Deploy to Vercel', created_at: new Date().toISOString(), isDone: false},
     {id: 4, title: 'Add TypeScript', created_at: new Date().toISOString(), isDone: false},
@@ -20,24 +20,32 @@ function TodoContainer() {
 
   const [addTaskModal, setAddTaskModal] = useState<boolean>(false);
 
-  const [taskInput, setTaskInput] = useState<string>('');
-
-  const handleAddTask = () => {
+  const handleAddTask = (task: string) => {
     const newTask: Task = {
       id: Date.now(),
-      title: taskInput,
+      title: task,
       created_at: new Date().toISOString(),
       isDone: false,
     }
 
     setTaskList([...taskList, newTask]);
     setAddTaskModal(false);
-    setTaskInput('');
+  }
+
+  const handleToggleDone = (id: number | string) => {
+    setTaskList(taskList.map(task =>
+      task.id === id
+        ? { ...task, isDone: !task.isDone }
+        : task
+    ))
+  }
+
+  const handleDelete = (id: number | string) => {
+    setTaskList(taskList.filter(task => task.id !== id));
   }
 
   const rejectAddTask = () => {
     setAddTaskModal(false);
-    setTaskInput('');
   }
 
 
@@ -46,20 +54,15 @@ function TodoContainer() {
       <div className="todo-wrap">
         <h3>Your Tasks</h3>
 
-        <input
-          value={taskInput}
-          type="text"
-          placeholder="Add a new task"
-          onChange={(e) => setTaskInput(e.target.value)}
-        />
-
-        <TaskList list={taskList} />
+        <TaskList list={taskList} onToggleDone={handleToggleDone} onDelete={handleDelete} />
 
         {addTaskModal && (
           <AddTask clickAccept={handleAddTask} clickCancel={rejectAddTask} />
         )}
 
-        <Button onClick={() => setAddTaskModal(true)} >Add Task</Button>
+
+        {/* не працює клас, чому? */}
+        <Button customClassName="add-task-button" onClick={() => setAddTaskModal(true)} >Add Task</Button>
       </div>
     </>
   )

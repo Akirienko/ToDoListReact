@@ -6,7 +6,7 @@ import { useState } from "react";
 import Button from "../../Button";
 
 interface AddTaskProps {
-  clickAccept: () => void;
+  clickAccept: (task: string) => void;
   clickCancel: () => void;
 }
 
@@ -29,7 +29,7 @@ const AddTask = ({ clickAccept, clickCancel }: AddTaskProps) => {
 
             <div className="buttons">
               <Button type="secondary" onClick={clickCancel}>Cancel</Button>
-              <Button onClick={clickAccept}>Accept</Button>
+              <Button onClick={() => clickAccept(taskInput)}>Accept</Button>
             </div>
           </div>
         }
