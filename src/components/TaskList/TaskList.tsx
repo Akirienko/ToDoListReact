@@ -2,13 +2,7 @@ import "./taskList.scss"
 import TaskItem from "../TaskItem/TaskItem"
 import type { Task } from '../../types'
 
-interface TaskListProps {
-  list: Task[];
-  onToggleDone: (id: number | string) => void;
-  onDelete: (id: number | string) => void;
-}
-
-function TaskList({ list, onToggleDone, onDelete }: TaskListProps) {
+function TaskList({ list }: {list: Task[]}) {
 
   return (
     <div className="tasks">
@@ -20,7 +14,7 @@ function TaskList({ list, onToggleDone, onDelete }: TaskListProps) {
         ) : (
             <>
               {list.map((item) => (
-                <TaskItem key={item.id} task={item} onToggleDone={onToggleDone} onDelete={onDelete} />
+                <TaskItem key={item.id} task={item} />
               ))}
             </>
         )}

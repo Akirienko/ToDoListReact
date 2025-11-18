@@ -1,5 +1,6 @@
 import Header from "./components/Header/Header"
 import TodoContainer from "./components/TodoContainer/TodoContainer"
+import { TodoProvider } from "./context/todoList/TodoProvider"
 
 
 function App() {
@@ -9,7 +10,9 @@ function App() {
     <>
       <div className="main-container">
         <Header />
-        <TodoContainer />
+        <TodoProvider>  
+          <TodoContainer />
+        </TodoProvider>
       </div>
     </>
   )

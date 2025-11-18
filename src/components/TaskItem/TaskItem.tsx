@@ -2,13 +2,19 @@ import "./taskItem.scss"
 import type { Task } from '../../types'
 import { optimizeDate } from "../../utils/helpers";
 
-interface TaskItemProps {
-  task: Task;
-  onToggleDone: (id: number | string) => void;
-  onDelete: (id: number | string) => void;
-}
+import { useTodo } from '../../context/todoList/TodoContext';
 
-function TaskItem({ task, onToggleDone, onDelete }: TaskItemProps) {
+function TaskItem({ task }: { task: Task }) {
+
+  const { toggleDone, deleteTask } = useTodo();
+
+  const onDelete = (id: number | string) => {
+    deleteTask(id);
+  }
+
+  const onToggleDone = (id: number | string) => {
+    toggleDone(id);
+  }
 
   return (
     <>
