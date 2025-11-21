@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { TodoContext } from "./TodoContext";
 import type { Task } from '../../types';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 interface TodoProviderProps {
   children: React.ReactNode;
@@ -8,12 +9,7 @@ interface TodoProviderProps {
 
 export const TodoProvider = ({ children }: TodoProviderProps) => {
 
-  const [taskList, setTaskList] = useState<Task[]>([
-    {id: 1, title: 'Learn React', created_at: new Date().toISOString(), isDone: true},
-    {id: 2, title: 'Build a ToDo App', created_at: new Date().toISOString(), isDone: false},
-    {id: 3, title: 'Deploy to Vercel', created_at: new Date().toISOString(), isDone: false},
-    {id: 4, title: 'Add TypeScript', created_at: new Date().toISOString(), isDone: false},
-  ])
+  const [taskList, setTaskList] = useLocalStorage<Task[]>('tasks', [])
 
   const addTask = (title: string) => {
     const newTask: Task = {

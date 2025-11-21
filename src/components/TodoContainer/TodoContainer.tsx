@@ -1,7 +1,6 @@
 import './TodoContainer.scss'
 
 import { useState } from "react"
-import type { Task } from '../../types'
 
 import TaskList from '../TaskList/TaskList';
 import Button from '../Button';
@@ -30,8 +29,6 @@ function TodoContainer() {
           />
         )}
 
-
-        {/* не працює клас, чому? */}
         <Button customClassName="add-task-button" onClick={() => setAddTaskModal(true)} >Add Task</Button>
       </div>
     </>
