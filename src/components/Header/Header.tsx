@@ -1,30 +1,21 @@
 import './Header.scss'
 
-import logo from '../../assets/image/logo.webp'
+import { Link } from 'react-router-dom'
 
-function Header() {
-
-
+const Header = () => {
   return (
-    <>
-      <header className="header">
-        <div className="weather">Weather</div>
-
-        <div className="logo">
-          <img src={logo} alt="logo" />
-          <p>
-            to
-            <span>
-              do.
-            </span>
-          </p>
+    <header className="header">
+      <div className="main-container">
+        <div className="header-wrap">
+          <nav>
+            <Link to="/">Home</Link>
+            <Link to="/login">Login</Link>
+            <Link to="/profile">Profile</Link>
+          </nav>
         </div>
-
-        <div className="profile">Profile</div>
-      </header>
-    </>
+      </div>
+    </header>
   )
 }
 
 export default Header
-

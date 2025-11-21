@@ -1,4 +1,3 @@
-import { useState } from "react"
 import { TodoContext } from "./TodoContext";
 import type { Task } from '../../types';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
