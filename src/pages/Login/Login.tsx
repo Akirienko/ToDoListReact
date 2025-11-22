@@ -1,40 +1,24 @@
-import { useState } from "react";
 import { useAuth } from "../../context/auth/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useForm } from 'react-hook-form';
+import type { User } from "../../types"
+
 import styles from './Login.module.scss';
 
 function LoginPage() {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [age, setAge] = useState('');
-  const [profession, setProfession] = useState('');
-  const [mainGoal, setMainGoal] = useState('');
-
+  const { register, handleSubmit, formState: { errors } } = useForm<User>();
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    login({
-      username,
-      email,
-      age: Number(age) || 0,
-      password,
-      profession,
-      mainGoal
-    });
-
-
-
+  const onSubmit = (data: User) => {
+    login(data);
     navigate('/');
   };
 
   return (
     <div className={styles.loginPage}>
-      <h2>Regisrtation</h2>
-      <form className={styles.form} onSubmit={handleSubmit}>
+      <h2>Registration</h2>
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
 
         <div className={styles.inputGroup}>
           <label htmlFor="username">Your Name</label>
@@ -42,10 +26,12 @@ function LoginPage() {
             id="username"
             type="text"
             placeholder="Your name"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
+            {...register("username", {
+              required: "Name is required",
+              minLength: { value: 2, message: "Minimum 2 characters" }
+            })}
           />
+          {errors.username && <span className={styles.error}>{errors.username.message}</span>}
         </div>
 
         <div className={styles.inputGroup}>
@@ -54,10 +40,15 @@ function LoginPage() {
             id="email"
             type="email"
             placeholder="example@email.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: "Invalid email address"
+              }
+            })}
           />
+          {errors.email && <span className={styles.error}>{errors.email.message}</span>}
         </div>
 
         <div className={styles.inputGroup}>
@@ -65,11 +56,13 @@ function LoginPage() {
           <input
             id="password"
             type="password"
-            placeholder="Enter ur pasword"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
+            placeholder="Enter your password"
+            {...register("password", {
+              required: "Password is required",
+              minLength: { value: 6, message: "Minimum 6 characters" }
+            })}
           />
+          {errors.password && <span className={styles.error}>{errors.password.message}</span>}
         </div>
 
         <div className={styles.inputGroup}>
@@ -78,10 +71,14 @@ function LoginPage() {
             id="age"
             type="number"
             placeholder="Your Age"
-            value={age}
-            onChange={(e) => setAge(e.target.value)}
-            required
+            {...register("age", {
+              required: "Age is required",
+              min: { value: 1, message: "Age must be positive" },
+              max: { value: 120, message: "Invalid age" },
+              valueAsNumber: true
+            })}
           />
+          {errors.age && <span className={styles.error}>{errors.age.message}</span>}
         </div>
 
         <div className={styles.inputGroup}>
@@ -90,8 +87,7 @@ function LoginPage() {
             id="profession"
             type="text"
             placeholder="Your profession"
-            value={profession}
-            onChange={(e) => setProfession(e.target.value)}
+            {...register("profession")}
           />
         </div>
 
@@ -100,8 +96,7 @@ function LoginPage() {
           <textarea
             id="mainGoal"
             placeholder="Tell about your goal"
-            value={mainGoal}
-            onChange={(e) => setMainGoal(e.target.value)}
+            {...register("mainGoal")}
           />
         </div>
 
