@@ -4,10 +4,10 @@ import HeaderTodo from "../../components/HeaderTodo/HeaderTodo"
 function HomePage() {
   return (
 
-      <>
+    <>
       <HeaderTodo />
       <TodoContainer />
-      </>
+    </>
   )
 }
 

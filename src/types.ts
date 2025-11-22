@@ -4,3 +4,11 @@ export type Task = {
   created_at: string
   isDone: boolean
 }
+
+export type User = {
+  username: string
+  email: string
+  age: number
+  profession?: string
+  mainGoal?: string
+}

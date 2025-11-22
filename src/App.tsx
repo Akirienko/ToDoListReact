@@ -5,6 +5,7 @@ import HomePage from './pages/Home/Home'
 import LoginPage from './pages/Login/Login'
 import ProfilePage from './pages/Profile/Profile'
 import { TodoProvider } from "./context/todoList/TodoProvider"
+import { AuthProvider } from "./context/auth/AuthProvider"
 
 
 function App() {
@@ -12,16 +13,16 @@ function App() {
 
   return (
     <>
-      <Header />
-      <div className="main-container">
-        <TodoProvider>
+      <AuthProvider>
+        <Header />
+        <div className="main-container">
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<TodoProvider><HomePage /></TodoProvider>} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/profile" element={<ProfilePage />} />
           </Routes>
-        </TodoProvider>
-      </div>
+        </div>
+      </AuthProvider>
     </>
   )
 }
