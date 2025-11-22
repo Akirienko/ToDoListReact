@@ -6,6 +6,7 @@ import LoginPage from './pages/Login/Login'
 import ProfilePage from './pages/Profile/Profile'
 import { TodoProvider } from "./context/todoList/TodoProvider"
 import { AuthProvider } from "./context/auth/AuthProvider"
+import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
 
 
 function App() {
@@ -17,9 +18,9 @@ function App() {
         <Header />
         <div className="main-container">
           <Routes>
-            <Route path="/" element={<TodoProvider><HomePage /></TodoProvider>} />
+            <Route path="/" element={<ProtectedRoute><TodoProvider><HomePage /></TodoProvider></ProtectedRoute>} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
           </Routes>
         </div>
       </AuthProvider>

@@ -1,10 +1,22 @@
 .header {
   padding: 2rem 0;
   margin-bottom: 5rem;
+  background: rgba(122, 79, 255, .2);
   &-wrap {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    .logo {
+      display: flex;
+      align-items: center;
+      span {
+        font-weight: 600;
+      }
+      img {
+        width: 4rem;
+        margin-right: 1rem;
+      }
+    }
     nav {
       gap: 2rem;
       display: flex;
@@ -16,6 +28,11 @@
         &:hover {
           color: #7a4fff;
         }
+      }
+    }
+    .user {
+      span {
+        margin-right: 1rem;
       }
     }
   }
