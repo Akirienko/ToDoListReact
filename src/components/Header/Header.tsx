@@ -2,12 +2,12 @@ import './Header.scss'
 import logo from '../../assets/image/logo.webp'
 
 import { Link } from 'react-router-dom'
-import { useAuth } from "../../context/auth/AuthContext";
+import { useAuthStore } from '../../store/authStore'
 import Button from '../Button';
 
 const Header = () => {
 
-  const { isAuthenticated, user, logout } = useAuth();
+  const { isAuthenticated, user, logout } = useAuthStore();
 
   return (
     <header className="header">

@@ -1,4 +1,4 @@
-import { useAuth } from "../../context/auth/AuthContext";
+import { useAuthStore } from '../../store/authStore'
 import { useNavigate } from "react-router-dom";
 import { useForm } from 'react-hook-form';
 import type { User } from "../../types"
@@ -7,7 +7,7 @@ import styles from './Login.module.scss';
 
 function LoginPage() {
   const { register, handleSubmit, formState: { errors } } = useForm<User>();
-  const { login } = useAuth();
+  const { login } = useAuthStore();
   const navigate = useNavigate();
 
   const onSubmit = (data: User) => {

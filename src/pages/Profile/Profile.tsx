@@ -1,8 +1,8 @@
-import { useAuth } from "../../context/auth/AuthContext";
+import { useAuthStore } from '../../store/authStore'
 import styles from './Profile.module.scss';
 
 function ProfilePage() {
-  const { user } = useAuth();
+  const { user } = useAuthStore();
 
   if (!user) {
     return null;

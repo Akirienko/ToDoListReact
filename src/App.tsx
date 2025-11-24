@@ -18,7 +18,7 @@ function App() {
         <Header />
         <div className="main-container">
           <Routes>
-            <Route path="/" element={<ProtectedRoute><TodoProvider><HomePage /></TodoProvider></ProtectedRoute>} />
+            <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
           </Routes>

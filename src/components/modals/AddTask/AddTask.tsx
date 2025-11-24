@@ -1,20 +1,21 @@
-import MainModal from "../MainModal/MainModal";
-import pancil from '../../../assets/image/pencil.webp'
 import './AddTask.scss'
-import { useTodo } from '../../../context/todoList/TodoContext';
+import pancil from '../../../assets/image/pencil.webp'
 
 import { useState } from "react";
+
+import MainModal from "../MainModal/MainModal";
+import { useTodoStore } from '../../../store/todoStore'
 import Button from "../../Button";
 
 
 interface AddTaskProps {
   clickCancel: () => void;
-  onSuccess?: () => void; 
+  onSuccess?: () => void;
 }
 
 const AddTask = ({ clickCancel, onSuccess }: AddTaskProps) => {
   const [taskInput, setTaskInput] = useState('');
-  const { addTask } = useTodo();
+  const { addTask } = useTodoStore();
 
   const handleAccept = () => {
     if (taskInput.trim()) {

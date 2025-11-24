@@ -5,13 +5,14 @@ import { useState } from "react"
 import TaskList from '../TaskList/TaskList';
 import Button from '../Button';
 import AddTask from '../modals/AddTask/AddTask';
-import { useTodo } from '../../context/todoList/TodoContext';
+import { useTodoStore } from '../../store/todoStore'
+
 
 
 
 function TodoContainer() {
 
-  const { taskList} = useTodo();
+  const { taskList } = useTodoStore()
 
   const [addTaskModal, setAddTaskModal] = useState<boolean>(false);
 
