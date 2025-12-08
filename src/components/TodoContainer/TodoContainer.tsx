@@ -1,6 +1,6 @@
 import './TodoContainer.scss'
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 import TaskList from '../TaskList/TaskList';
 import Button from '../Button';
@@ -12,7 +12,11 @@ import { useTodoStore } from '../../store/todoStore'
 
 function TodoContainer() {
 
-  const { taskList } = useTodoStore()
+  const { taskList, fetchTasks } = useTodoStore()
+
+  useEffect(() => {
+    fetchTasks()
+  }, [])
 
   const [addTaskModal, setAddTaskModal] = useState<boolean>(false);
 

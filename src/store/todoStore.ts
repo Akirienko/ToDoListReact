@@ -1,43 +1,88 @@
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
+import { supabase } from '../lib/supabase'
+import { useAuthStore } from './authStore'
+
 import type { Task } from '../types'
 
 interface TodoState {
   taskList: Task[]
-  addTask: (title: string) => void
-  toggleDone: (id: number | string) => void
-  deleteTask: (id: number | string) => void
+  loading: boolean
+  error: string | null
+  fetchTasks: () => Promise<void>
+  addTask: (title: string) => Promise<void>
+  toggleDone: (id: number | string) => Promise<void>
+  deleteTask: (id: number | string) => Promise<void>
 }
 
 export const useTodoStore = create<TodoState>()(
-  persist(
-    (set) => ({
-      taskList: [],
+  (set) => ({
+    taskList: [],
+    loading: false,
+    error: null,
 
-      addTask: (title) => set((state) => ({
-        taskList: [
-          ...state.taskList,
-          {
-            id: Date.now(),
-            title: title,
-            created_at: new Date().toISOString(),
-            isDone: false,
-          }
-        ]
-      })),
+      fetchTasks: async () => {
+        set({ loading: true, error: null })
 
-      toggleDone: (id) => set((state) => ({
-        taskList: state.taskList.map((task) =>
-          task.id === id ? { ...task, isDone: !task.isDone } : task
-        )
-      })),
+        const userId = useAuthStore.getState().user?.id
+        if (!userId) return
 
-      deleteTask: (id) => set((state) => ({
-        taskList: state.taskList.filter(task => task.id !== id)
-      })),
-    }),
-    {
-      name: 'tasks',
-    }
-  )
+        const { data, error } = await supabase
+          .from('tasks')
+          .select('*')
+          .eq('user_id', userId)
+          .order('created_at', { ascending: false })
+
+        if (error) {
+          set({ error: error.message, loading: false })
+        } else {
+          set({ taskList: data, loading: false })
+        }
+      },
+
+      addTask: async (title) => {
+        const userId = useAuthStore.getState().user?.id
+        if (!userId) return
+
+        const { data, error } = await supabase
+          .from('tasks')
+          .insert({ title, user_id: userId, is_done: false })
+          .select()
+          .single()
+
+        if (!error && data) {
+          set((state) => ({ taskList: [data, ...state.taskList] }))
+        }
+      },
+
+      toggleDone: async (id) => {
+        const task = useTodoStore.getState().taskList.find(t => t.id === id)
+        if (!task) return
+
+        const { error } = await supabase
+          .from('tasks')
+          .update({ is_done: !task.isDone })
+          .eq('id', id)
+
+        if (!error) {
+          set((state) => ({
+            taskList: state.taskList.map((t) =>
+              t.id === id ? { ...t, isDone: !t.isDone } : t
+            )
+          }))
+        }
+      },
+
+      deleteTask: async (id) => {
+        const { error } = await supabase
+          .from('tasks')
+          .delete()
+          .eq('id', id)
+
+        if (!error) {
+          set((state) => ({
+            taskList: state.taskList.filter(task => task.id !== id)
+          }))
+        }
+      },
+    })
 )

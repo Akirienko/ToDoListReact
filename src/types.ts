@@ -6,10 +6,17 @@ export type Task = {
 }
 
 export type User = {
+  id: string
   username: string
   email: string
   age: number
-  password: string
+  profession?: string
+  mainGoal?: string
+}
+
+export type ProfileData = {
+  username: string
+  age: number
   profession?: string
   mainGoal?: string
 }

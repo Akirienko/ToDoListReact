@@ -7,7 +7,7 @@ import Button from '../Button';
 
 const Header = () => {
 
-  const { isAuthenticated, user, logout } = useAuthStore();
+  const { isAuthenticated, user, signOut } = useAuthStore();
 
   return (
     <header className="header">
@@ -30,7 +30,7 @@ const Header = () => {
           {isAuthenticated && (
             <div className="user">
               <span>Hi, {user?.username}!</span>
-              <Button type="secondary" onClick={logout}>Logout</Button>
+              <Button type="secondary" onClick={signOut}>Logout</Button>
             </div>
           )}
         </div>
