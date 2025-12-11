@@ -108,6 +108,7 @@ export const useAuthStore = create<AuthState>()(
 
         try {
           const { data: { user: authUser }, error } = await supabase.auth.getUser()
+          // get sesion try 
 
           if (error) throw error
 
